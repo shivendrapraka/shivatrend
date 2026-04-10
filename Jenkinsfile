@@ -6,8 +6,17 @@ pipeline {
   stages {
     stage ("build") {
        steps {
-          sh "mvn clean deploy"
+	     echo "=============Build is in progress========"
+          sh "mvn clean deploy -Dmaven.test.skip=true"
+		 echo "=========Build completed======"
        }
+	}
+	stage ("Test of the job") {
+	  steps {
+	   echo "==========Testing of the Maven job=========="
+	     sh "mvn surefire-report:report"
+	   echo "+++++++++++Testing completed=========="
+	  }
 	}
     stage ("SonarQube analysis") {
 	   environment {
